@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crop Recommendation System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+     background-image: url({{url_for('static',filename ='jjjj.png')}});
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      padding-top: 100px;
+    }
+    .form-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .form-control {
+      margin-bottom: 20px;
+    }
+    .btn-submit {
+      background-color: #3d9970;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-submit:hover {
+      background-color: #298f6c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 form-container">
+        <h1 class="text-center mb-4 text-success">Crop Recommendation System</h1>
+        <form action="/predict" method="post">
+<!--          <div class="form-group">-->
+<!--            <label for="Item">Item</label>-->
+<!--            <input type="text" class="form-control" name="Item" id = "Item">-->
+<!--          </div>-->
+          <div class="form-group">
+            <label for="pesticides_tonnes">Pesticides Tonnes</label>
+            <input type="number" step="0.01" class="form-control" name="pesticides_tonnes" id = "pesticides_tonnes">
+          </div>
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" name="location" id = "location">
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-submit btn-block">Submit</button>
+          </div>
+        </form>
+
+         {% if predicted_value %}
+        <h3 class="text-center text-success">
+            Best item to be planted is : {{best}}
+            Predicted Yield is(hg/ha: hectogram per hectare) :<br>
+            {{predicted_value}}
+        </h3>
+        {% endif %}
+        {% if total_rainfall and average_temperature %}
+        <div class="weather-report text-success">
+            <h3>Weather Report</h3>
+            <p>Total Rainfall: {{ total_rainfall }} mm</p>
+            <p>Average Temperature: {{ average_temperature }} °C</p>
+        </div>
+        {% endif %}
+        {% if error %}
+        <h1 class="text-center text-danger">
+            Error:<br>
+            {{error}}
+        </h1>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
